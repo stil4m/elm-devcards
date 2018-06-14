@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "summary": "helpful summary of your project, less than 80 characters",
-  "repository": "https://github.com/user/project.git",
+  "summary": "Devcards in Elm. Inspired by https://github.com/bhauman/devcards",
+  "repository": "https://github.com/stil4m/elm-devcards.git",
   "license": "BSD3",
   "source-directories": [
     "src"
