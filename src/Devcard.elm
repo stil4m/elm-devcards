@@ -9,13 +9,14 @@ module Devcard exposing (BasicConfig, Config, Devcard, basicDevcard, devcard, st
 
 -}
 
+import Browser
 import Devcard.Context as Context exposing (CardContext)
 import Html exposing (Html)
 import Html.Attributes
 import Html.Events
 import Random
 import Task
-import Time exposing (Time)
+import Time exposing (Posix)
 
 
 {-| -}
@@ -43,7 +44,7 @@ type Msg subMsg context
     = SubMsg subMsg
     | ContextMsg context
     | ToggleFooter
-    | Tick Time
+    | Tick Posix
 
 
 {-| -}
@@ -94,7 +95,7 @@ basicDevcard context config =
 {-| -}
 devcard : CardContext context -> Config model msg context -> Devcard model msg context
 devcard context config =
-    Html.programWithFlags
+    Browser.element
         { init = init context config
         , update = update
         , view = view
@@ -172,7 +173,7 @@ update msg model =
         Tick time ->
             let
                 seed =
-                    Random.initialSeed (round time)
+                    Random.initialSeed (Time.posixToMillis time)
 
                 contextValue =
                     Context.initialize model.context seed
@@ -211,7 +212,7 @@ view model =
             Html.div []
                 [ Html.div [ Html.Attributes.class "devcard-header" ]
                     [ Html.div
-                        [ Html.Attributes.style [ ( "float", "right" ) ] ]
+                        [ Html.Attributes.style "float" "right" ]
                         [ Context.view model.context inner.contextValue |> Html.map ContextMsg ]
                     , Html.h1 []
                         [ Html.a [ Html.Attributes.href ("/" ++ model.flags.name) ] [ Html.text model.flags.name ] ]
@@ -224,17 +225,18 @@ view model =
                         [ toggleFooterButton
                         , Html.h4 [] [ Html.text "State" ]
                         , Html.pre []
-                            [ Html.text (toString inner.sub) ]
+                            [ Html.text (Debug.toString inner.sub) ]
                         , Html.hr []
                             []
                         , Html.h4 [] [ Html.text "Events" ]
                         , Html.pre []
                             [ inner.msgs
-                                |> List.map toString
+                                |> List.map Debug.toString
                                 |> String.join "\n"
                                 |> Html.text
                             ]
                         ]
+
                     else
                         [ toggleFooterButton ]
                 ]

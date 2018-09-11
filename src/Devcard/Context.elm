@@ -1,4 +1,4 @@
-module Devcard.Context exposing (CardContext, dynamic, initialize, none, static, view)
+module Devcard.Context exposing (CardContext, initialize, view, none, static, dynamic)
 
 {-|
 
@@ -29,8 +29,8 @@ initialize (Context { init }) seed =
 
 {-| -}
 view : CardContext c -> c -> Html c
-view (Context { view }) c =
-    view c
+view (Context model) c =
+    model.view c
 
 
 {-| -}

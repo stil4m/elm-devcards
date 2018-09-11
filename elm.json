@@ -1,0 +1,20 @@
+{
+    "type": "package",
+    "name": "stil4m/elm-devcards",
+    "summary": "Devcards in Elm. Inspired by https://github.com/bhauman/devcards",
+    "license": "BSD-3-Clause",
+    "version": "1.0.1",
+    "exposed-modules": [
+        "Devcard",
+        "Devcard.Context"
+    ],
+    "elm-version": "0.19.0 <= v < 0.20.0",
+    "dependencies": {
+        "elm/browser": "1.0.0 <= v < 2.0.0",
+        "elm/core": "1.0.0 <= v < 2.0.0",
+        "elm/html": "1.0.0 <= v < 2.0.0",
+        "elm/random": "1.0.0 <= v < 2.0.0",
+        "elm/time": "1.0.0 <= v < 2.0.0"
+    },
+    "test-dependencies": {}
+}
