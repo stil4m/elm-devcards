@@ -57,6 +57,8 @@ type alias BasicConfig model msg context =
     { model : model
     , update : msg -> model -> model
     , view : context -> model -> Html msg
+    , modelToString : model -> String
+    , msgToString : msg -> String
     }
 
 
@@ -66,6 +68,8 @@ type alias Config model msg context =
     , update : msg -> model -> ( model, Cmd msg )
     , view : context -> model -> Html msg
     , subscriptions : model -> Sub msg
+    , modelToString : model -> String
+    , msgToString : msg -> String
     }
 
 
@@ -78,6 +82,8 @@ staticDevcard context f =
         , update = \_ m -> ( m, Cmd.none )
         , view = \c _ -> f c
         , subscriptions = always Sub.none
+        , modelToString = always ""
+        , msgToString = always ""
         }
 
 
@@ -89,6 +95,8 @@ basicDevcard context config =
         , update = \msg model -> ( config.update msg model, Cmd.none )
         , view = config.view
         , subscriptions = always Sub.none
+        , modelToString = config.modelToString
+        , msgToString = config.msgToString
         }
 
 
@@ -225,13 +233,13 @@ view model =
                         [ toggleFooterButton
                         , Html.h4 [] [ Html.text "State" ]
                         , Html.pre []
-                            [ Html.text (Debug.toString inner.sub) ]
+                            [ Html.text (model.config.modelToString inner.sub) ]
                         , Html.hr []
                             []
                         , Html.h4 [] [ Html.text "Events" ]
                         , Html.pre []
                             [ inner.msgs
-                                |> List.map Debug.toString
+                                |> List.map model.config.msgToString
                                 |> String.join "\n"
                                 |> Html.text
                             ]
